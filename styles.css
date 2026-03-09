@@ -1,0 +1,416 @@
+/* PAGE */
+
+body{
+  font-family:"Funnel Display", sans-serif;
+  margin:40px;
+  background:rgb(12,39,35);
+  color:#ffffff;
+}
+
+/* HEADER */
+
+.page-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:30px;
+}
+
+.wbc-logo{
+  height:110px;
+  width:auto;
+}
+
+.page-header h1{
+  margin:0;
+}
+
+/* ENTRY SECTION */
+
+.entry-section{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+
+.entry-section label{
+  font-weight:700;
+}
+
+#entry-name{
+  padding:10px 12px;
+  border:none;
+  border-radius:6px;
+  font-family:"Funnel Display", sans-serif;
+  font-size:14px;
+  min-width:220px;
+  color:rgb(12,39,35);
+}
+
+#submit-entry{
+  border:none;
+  border-radius:6px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-family:"Funnel Display", sans-serif;
+  font-weight:700;
+  background:rgb(211,45,83);
+  color:white;
+}
+
+#submit-entry:hover{
+  opacity:0.92;
+}
+
+/* GROUP GRID */
+
+#games{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:25px;
+  margin-bottom:50px;
+}
+
+/* GROUP BOX */
+
+.group-box{
+  background:rgba(29,74,52);
+  border-radius:8px;
+  padding:15px;
+}
+
+.group-box h2{
+  color:#ffffff;
+  margin-top:0;
+  text-align:center;
+}
+
+/* GAME ROWS */
+
+.game-row{
+  display:grid;
+  grid-template-columns:35px 1fr 35px 1fr;
+  align-items:center;
+  margin-bottom:6px;
+  background:rgb(246, 198, 67);
+  border-radius:6px;
+  overflow:hidden;
+}
+
+/* DATE */
+
+.game-date{
+  padding:6px 0;
+  font-weight:normal;
+  font-size:12px;
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+  color:rgb(12,39,35);
+}
+
+/* TEAM BUTTONS */
+
+.team-btn{
+  border:none;
+  background:rgb(242, 173, 47);
+  padding-top:10px;
+  padding-bottom:10px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:600;
+  width:100%;
+  height:100%;
+  transition:all 0.2s;
+  font-family:"Funnel Display", sans-serif;
+  color:rgb(12,39,35);
+}
+
+.team-btn:hover{
+  background:rgb(237, 197, 123);
+}
+
+.team-btn:disabled{
+  opacity:0.65;
+  cursor:default;
+}
+
+/* SELECTED TEAM */
+
+.team-btn.selected{
+  background:rgb(75, 170, 200);
+  color:rgb(12,39,35);
+}
+
+/* VS */
+
+.vs{
+  padding-top:10px;
+  padding-bottom:10px;
+  text-align:center;
+  font-size:13px;
+  color:rgb(12,39,35);
+}
+
+/* STANDINGS */
+
+.group-standings{
+  margin-top:12px;
+  border-radius:6px;
+  overflow:hidden;
+  color:rgb(12,39,35);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  background-color:rgba(95, 208, 218);
+}
+
+th{
+  background:rgb(211,45,83);
+  border-bottom:5px solid rgba(29,74,52);
+  color:rgb(12,39,35);
+}
+
+th,
+td{
+  padding:4px;
+  text-align:center;
+}
+
+tbody tr + tr td{
+  border-top:1.5px solid rgba(29,74,52);
+}
+
+td + td,
+th + th{
+  border-left:1.5px solid rgba(29,74,52);
+}
+
+/* HIGHLIGHT ADVANCING TEAMS */
+
+tbody tr:nth-child(1),
+tbody tr:nth-child(2){
+  background:rgb(75, 170, 200);
+}
+
+/* BRACKET LAYOUT */
+
+/* BRACKET LABELS */
+
+.bracket-labels{
+  display:grid;
+  grid-template-columns:220px 220px 220px 180px;
+  column-gap:40px;
+  margin-top:30px;
+  margin-bottom:14px;
+  overflow-x:auto;
+}
+
+.bracket-labels h3{
+  margin:0;
+  text-align:center;
+}
+
+/* BRACKET LAYOUT */
+
+#bracket{
+  display:grid;
+  grid-template-columns:220px 220px 220px 180px;
+  grid-template-rows:repeat(4, auto);
+  column-gap:40px;
+  row-gap:28px;
+  align-items:center;
+  overflow-x:auto;
+}
+
+/* quarterfinals */
+
+#qf1{ grid-column:1; grid-row:1; }
+#qf2{ grid-column:1; grid-row:2; }
+#qf3{ grid-column:1; grid-row:3; }
+#qf4{ grid-column:1; grid-row:4; }
+
+/* semifinals */
+
+#sf1{
+  grid-column:2;
+  grid-row:1 / span 2;
+  align-self:center;
+}
+
+#sf2{
+  grid-column:2;
+  grid-row:3 / span 2;
+  align-self:center;
+}
+
+/* final */
+
+#final{
+  grid-column:3;
+  grid-row:2 / span 2;
+  align-self:center;
+}
+
+/* champion */
+
+#champion{
+  grid-column:4;
+  grid-row:2 / span 2;
+  align-self:center;
+}
+
+/* MATCH CARDS */
+
+.match{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  min-width:180px;
+  padding:10px;
+  background:rgba(29,74,52,0.9);
+  border-radius:12px;
+  justify-content:center;
+}
+
+.match .team-btn{
+  border-radius:8px;
+  padding:10px 12px;
+  font-size:13px;
+  font-weight:700;
+  text-align:left;
+  min-height:18px;
+}
+
+/* CHAMPION */
+
+#champion{
+  min-width:180px;
+  min-height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px 18px;
+  border-radius:14px;
+  background:rgb(211,45,83);
+  color:white;
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.22);
+}
+
+/* MOBILE */
+
+@media (max-width: 1200px){
+  #games{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1000px){
+  .bracket-labels{
+    display:none;
+  }
+
+  #bracket{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+    gap:18px;
+  }
+
+  #qf1, #qf2, #qf3, #qf4,
+  #sf1, #sf2, #final, #champion{
+    grid-column:auto;
+    grid-row:auto;
+    align-self:auto;
+  }
+}
+
+@media (max-width: 700px){
+  body{
+    margin:20px;
+  }
+
+  #games{
+    grid-template-columns:1fr;
+  }
+
+  .page-header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .wbc-logo{
+    height:80px;
+  }
+}
+
+/* BRACKET CONNECTOR LINES */
+
+.match{
+  position:relative;
+}
+
+/* line going right from each match */
+
+#qf1::after,
+#qf2::after,
+#qf3::after,
+#qf4::after,
+#sf1::after,
+#sf2::after,
+#final::after{
+  content:"";
+  position:absolute;
+  right:-20px;
+  top:50%;
+  width:20px;
+  border-top:2px solid rgb(242, 173, 47);
+}
+
+/* vertical connector between qf pairs */
+
+#qf1::before,
+#qf3::before{
+  content:"";
+  position:absolute;
+  right:-20px;
+  top:50%;
+  height:calc(100% + 28px);
+  border-right:2px solid rgb(242, 173, 47);
+}
+
+#qf2::before,
+#qf4::before{
+  content:"";
+  position:absolute;
+  right:-20px;
+  bottom:50%;
+  height:calc(100% + 28px);
+  border-right:2px solid rgb(242, 173, 47);
+}
+
+/* semifinal vertical connectors */
+
+#sf1::before{
+  content:"";
+  position:absolute;
+  right:-20px;
+  top:50%;
+  height:calc(100% + 56px);
+  border-right:2px solid rgb(242, 173, 47);
+}
+
+#sf2::before{
+  content:"";
+  position:absolute;
+  right:-20px;
+  bottom:50%;
+  height:calc(100% + 56px);
+  border-right:2px solid rgb(242, 173, 47);
+}
