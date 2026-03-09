@@ -18,7 +18,7 @@
     <nav class="site-nav">
       <a href="index.html" class="nav-btn">Bracket</a>
       <a href="leaderboard.html" class="nav-btn">Leaderboard</a>
-      <a href="admin.html" class="nav-btn">Admin</a>
+      <a href="admin.html" class="nav-btn hidden" id="admin-link">Admin</a>
     </nav>
   </div>
 </header>
@@ -75,7 +75,7 @@
     <button id="close-auth-modal" class="auth-modal__close" type="button">×</button>
 
     <h2 class="auth-modal__title">Sign in</h2>
-    <p class="auth-modal__subtitle">Use email, Google, or Apple</p>
+    <p class="auth-modal__subtitle">Use email or Google</p>
 
     <div class="auth-modal__section">
       <input id="auth-email" type="email" placeholder="Enter your email" />
@@ -89,9 +89,6 @@
         Continue with Google
       </button>
 
-      <button id="sign-in-apple" type="button" class="auth-provider-btn">
-        Continue with Apple
-      </button>
     </div>
 
     <div id="auth-status" class="auth-status"></div>

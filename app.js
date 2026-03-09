@@ -43,7 +43,7 @@ function updateAuthUI(user) {
   const emailInput = document.getElementById("auth-email");
   const emailBtn = document.getElementById("send-magic-link");
   const googleBtn = document.getElementById("sign-in-google");
-  const appleBtn = document.getElementById("sign-in-apple");
+
 
   if (user) {
     if (openBtn) openBtn.classList.add("hidden");
@@ -62,14 +62,21 @@ function updateAuthUI(user) {
     if (emailInput) emailInput.classList.remove("hidden");
     if (emailBtn) emailBtn.classList.remove("hidden");
     if (googleBtn) googleBtn.classList.remove("hidden");
-    if (appleBtn) appleBtn.classList.remove("hidden");
   }
+  const adminLink = document.getElementById("admin-link");
+
+if (adminLink) {
+  if (user && user.email === "benjamindslaughter@gmail.com") {
+    adminLink.classList.remove("hidden");
+  } else {
+    adminLink.classList.add("hidden");
+  }
+}
 }
 
 function setupAuthButtons() {
   const emailBtn = document.getElementById("send-magic-link");
   const googleBtn = document.getElementById("sign-in-google");
-  const appleBtn = document.getElementById("sign-in-apple");
   const signOutBtn = document.getElementById("sign-out-btn");
   const emailInput = document.getElementById("auth-email");
   const authStatus = document.getElementById("auth-status");
@@ -106,22 +113,14 @@ function setupAuthButtons() {
     });
   }
 
-  if (appleBtn) {
-    appleBtn.addEventListener("click", async () => {
-      const { error } = await signInWithProvider("apple");
 
-      if (error) {
-        console.error(error);
-        if (authStatus) authStatus.innerText = "Apple sign-in failed";
-      }
-    });
-  }
-
-  if (signOutBtn) {
-    signOutBtn.addEventListener("click", async () => {
-      await signOutUser();
-    });
-  }
+if (signOutBtn) {
+  signOutBtn.addEventListener("click", async () => {
+    await signOutUser();
+    updateAuthUI(null);
+    window.location.reload();
+  });
+}
 }
 
 function setupSubmitButton() {
