@@ -31,6 +31,99 @@ function setupEntryName() {
   });
 }
 
+let currentUser = null;
+
+function updateAuthUI(user) {
+  currentUser = user;
+
+  const openBtn = document.getElementById("open-auth-modal");
+  const signOutBtn = document.getElementById("sign-out-btn");
+  const headerStatus = document.getElementById("header-auth-status");
+  const authStatus = document.getElementById("auth-status");
+  const emailInput = document.getElementById("auth-email");
+  const emailBtn = document.getElementById("send-magic-link");
+  const googleBtn = document.getElementById("sign-in-google");
+  const appleBtn = document.getElementById("sign-in-apple");
+
+  if (user) {
+    if (openBtn) openBtn.classList.add("hidden");
+    if (signOutBtn) signOutBtn.classList.remove("hidden");
+    if (headerStatus) headerStatus.innerText = user.email || "";
+
+    if (authStatus) authStatus.innerText = "";
+    if (emailInput) emailInput.value = "";
+
+    closeAuthModal();
+  } else {
+    if (openBtn) openBtn.classList.remove("hidden");
+    if (signOutBtn) signOutBtn.classList.add("hidden");
+    if (headerStatus) headerStatus.innerText = "";
+
+    if (emailInput) emailInput.classList.remove("hidden");
+    if (emailBtn) emailBtn.classList.remove("hidden");
+    if (googleBtn) googleBtn.classList.remove("hidden");
+    if (appleBtn) appleBtn.classList.remove("hidden");
+  }
+}
+
+function setupAuthButtons() {
+  const emailBtn = document.getElementById("send-magic-link");
+  const googleBtn = document.getElementById("sign-in-google");
+  const appleBtn = document.getElementById("sign-in-apple");
+  const signOutBtn = document.getElementById("sign-out-btn");
+  const emailInput = document.getElementById("auth-email");
+  const authStatus = document.getElementById("auth-status");
+
+  if (emailBtn && emailInput) {
+    emailBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        if (authStatus) authStatus.innerText = "Please enter your email";
+        return;
+      }
+
+      const { error } = await sendMagicLink(email);
+
+      if (error) {
+        console.error(error);
+        if (authStatus) authStatus.innerText = "Could not send login link";
+        return;
+      }
+
+      if (authStatus) authStatus.innerText = "Check your email for a login link";
+    });
+  }
+
+  if (googleBtn) {
+    googleBtn.addEventListener("click", async () => {
+      const { error } = await signInWithProvider("google");
+
+      if (error) {
+        console.error(error);
+        if (authStatus) authStatus.innerText = "Google sign-in failed";
+      }
+    });
+  }
+
+  if (appleBtn) {
+    appleBtn.addEventListener("click", async () => {
+      const { error } = await signInWithProvider("apple");
+
+      if (error) {
+        console.error(error);
+        if (authStatus) authStatus.innerText = "Apple sign-in failed";
+      }
+    });
+  }
+
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", async () => {
+      await signOutUser();
+    });
+  }
+}
+
 function setupSubmitButton() {
   const btn = document.getElementById("submit-entry");
   if (!btn) return;
@@ -180,65 +273,6 @@ async function fetchEntries() {
   return data;
 }
 
-let currentUser = null;
-
-function updateAuthUI(user) {
-  currentUser = user;
-
-  const authStatus = document.getElementById("auth-status");
-  const signOutBtn = document.getElementById("sign-out-btn");
-  const sendBtn = document.getElementById("send-magic-link");
-  const emailInput = document.getElementById("auth-email");
-
-  if (!authStatus || !signOutBtn || !sendBtn || !emailInput) return;
-
-  if (user) {
-    authStatus.innerText = `Signed in as ${user.email}`;
-    signOutBtn.style.display = "inline-block";
-    sendBtn.style.display = "none";
-    emailInput.style.display = "none";
-  } else {
-    authStatus.innerText = "";
-    signOutBtn.style.display = "none";
-    sendBtn.style.display = "inline-block";
-    emailInput.style.display = "inline-block";
-  }
-}
-
-function setupAuthButtons() {
-  const sendBtn = document.getElementById("send-magic-link");
-  const signOutBtn = document.getElementById("sign-out-btn");
-  const emailInput = document.getElementById("auth-email");
-  const authStatus = document.getElementById("auth-status");
-
-  if (sendBtn && emailInput) {
-    sendBtn.addEventListener("click", async () => {
-      const email = emailInput.value.trim();
-
-      if (!email) {
-        alert("Please enter your email.");
-        return;
-      }
-
-      const { error } = await sendMagicLink(email);
-
-      if (error) {
-        console.error("Magic link error:", error);
-        authStatus.innerText = "Login email failed";
-        return;
-      }
-
-      authStatus.innerText = "Check your email for a login link";
-    });
-  }
-
-  if (signOutBtn) {
-    signOutBtn.addEventListener("click", async () => {
-      await signOutUser();
-    });
-  }
-}
-
 async function init() {
   loadState();
 
@@ -246,7 +280,9 @@ async function init() {
   updateAuthUI(user);
   listenForAuthChanges(updateAuthUI);
 
+  setupAuthModalControls();
   setupAuthButtons();
+
   setupEntryName();
   setupSubmitButton();
 

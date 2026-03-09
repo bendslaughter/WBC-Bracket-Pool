@@ -22,11 +22,10 @@
     </nav>
   </div>
 </header>
-<div class="auth-bar">
-  <input id="auth-email" type="email" placeholder="Enter your email" />
-  <button id="send-magic-link">Email Login Link</button>
-  <button id="sign-out-btn" style="display:none;">Sign Out</button>
-  <span id="auth-status"></span>
+<div class="header-auth">
+  <button id="open-auth-modal" class="nav-btn" type="button">Sign In</button>
+  <button id="sign-out-btn" class="nav-btn hidden" type="button">Sign Out</button>
+  <span id="header-auth-status"></span>
 </div>
 
   <!-- ENTRY SECTION -->
@@ -69,6 +68,35 @@
 
     <div class="match" id="qf4"></div>
   </div>
+  <div id="auth-modal" class="auth-modal hidden">
+  <div class="auth-modal__backdrop"></div>
+
+  <div class="auth-modal__panel">
+    <button id="close-auth-modal" class="auth-modal__close" type="button">×</button>
+
+    <h2 class="auth-modal__title">Sign in</h2>
+    <p class="auth-modal__subtitle">Use email, Google, or Apple</p>
+
+    <div class="auth-modal__section">
+      <input id="auth-email" type="email" placeholder="Enter your email" />
+      <button id="send-magic-link" type="button">Email Login Link</button>
+    </div>
+
+    <div class="auth-modal__divider">or</div>
+
+    <div class="auth-modal__providers">
+      <button id="sign-in-google" type="button" class="auth-provider-btn">
+        Continue with Google
+      </button>
+
+      <button id="sign-in-apple" type="button" class="auth-provider-btn">
+        Continue with Apple
+      </button>
+    </div>
+
+    <div id="auth-status" class="auth-status"></div>
+  </div>
+</div>
 
   <!-- JAVASCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

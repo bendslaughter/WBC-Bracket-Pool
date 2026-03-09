@@ -626,3 +626,113 @@ tbody tr:nth-child(2){
 #auth-status{
   font-weight:700;
 }
+
+.hidden{
+  display:none !important;
+}
+
+.header-auth{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+#header-auth-status{
+  font-weight:700;
+}
+
+/* AUTH MODAL */
+
+.auth-modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+}
+
+.auth-modal__backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+}
+
+.auth-modal__panel{
+  position:relative;
+  z-index:1;
+  width:min(440px, calc(100vw - 32px));
+  margin:80px auto 0;
+  background:rgb(29,74,52);
+  color:#ffffff;
+  border-radius:16px;
+  padding:24px;
+}
+
+.auth-modal__close{
+  position:absolute;
+  top:10px;
+  right:12px;
+  border:none;
+  background:transparent;
+  color:#ffffff;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.auth-modal__title{
+  margin:0 0 6px 0;
+}
+
+.auth-modal__subtitle{
+  margin:0 0 18px 0;
+  opacity:0.85;
+}
+
+.auth-modal__section{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.auth-modal__divider{
+  text-align:center;
+  margin:16px 0;
+  font-weight:700;
+  opacity:0.8;
+}
+
+.auth-modal__providers{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+#auth-email{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  font-family:"Funnel Display", sans-serif;
+  font-size:14px;
+  color:rgb(12,39,35);
+}
+
+#send-magic-link,
+.auth-provider-btn{
+  border:none;
+  border-radius:8px;
+  padding:12px 14px;
+  cursor:pointer;
+  font-family:"Funnel Display", sans-serif;
+  font-weight:800;
+  background:rgb(242, 173, 47);
+  color:rgb(12,39,35);
+}
+
+#send-magic-link:hover,
+.auth-provider-btn:hover{
+  background:rgb(237, 197, 123);
+}
+
+.auth-status{
+  margin-top:14px;
+  font-weight:700;
+}
