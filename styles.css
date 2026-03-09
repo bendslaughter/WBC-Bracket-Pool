@@ -193,6 +193,7 @@ body{
 
 .team-btn{
   border:none;
+  position:relative;
   background:rgb(242, 173, 47);
   padding-top:10px;
   padding-bottom:10px;
@@ -209,17 +210,71 @@ body{
 .team-btn:hover{
   background:rgb(237, 197, 123);
 }
-
 .team-btn:disabled{
-  opacity:0.65;
   cursor:default;
+  opacity:1;
 }
+
+
 
 /* SELECTED TEAM */
 
 .team-btn.selected{
   background:rgb(75, 170, 200);
   color:rgb(12,39,35);
+}
+
+/* BRACKET RESULT COLORS */
+
+.team-btn.correct-pick{
+  background:rgb(86, 187, 109);
+  color:rgb(12,39,35);
+}
+
+.team-btn.incorrect-pick{
+  background:rgb(211,45,83);
+  color:rgb(12,39,35);
+  text-decoration:line-through;
+}
+
+/* RESULT ICONS */
+/* RESULT ICONS (correct / incorrect picks) */
+
+/* RESULT ICONS */
+
+/* RESULT ICONS */
+
+.team-btn{
+  position:relative;
+}
+
+/* icon placement */
+
+.result-icon{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:16px;
+  height:16px;
+  stroke-width:3;
+  pointer-events:none;
+}
+
+/* correct pick */
+
+.correct-pick{
+  background:rgb(86,187,109) !important;
+}
+
+.correct-pick .result-icon{
+  color:rgb(12,39,35);
+}
+
+/* incorrect pick */
+
+.incorrect-pick{
+  background:rgb(211,45,83) !important;
 }
 
 /* VS */
@@ -536,4 +591,38 @@ tbody tr:nth-child(2){
   bottom:50%;
   height:calc(100% + 56px);
   border-right:2px solid rgb(242, 173, 47);
+}
+
+.auth-bar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+#auth-email{
+  padding:10px 12px;
+  border:none;
+  border-radius:6px;
+  font-family:"Funnel Display", sans-serif;
+  font-size:14px;
+  min-width:240px;
+  color:rgb(12,39,35);
+}
+
+#send-magic-link,
+#sign-out-btn{
+  border:none;
+  border-radius:8px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-family:"Funnel Display", sans-serif;
+  font-weight:700;
+  background:rgb(211,45,83);
+  color:white;
+}
+
+#auth-status{
+  font-weight:700;
 }

@@ -42,16 +42,16 @@ function renderLeaderboard(rows) {
   rows.forEach(row => {
     const tr = document.createElement("tr");
 
-tr.innerHTML = `
-  <td>${row.rank}</td>
-  <td>
-    <a class="entry-link" href="bracket.html?id=${row.id}">
-      ${row.name}
-    </a>
-  </td>
-  <td>${row.total}</td>
-  <td>${row.maxPossible}</td>
-`;
+    tr.innerHTML = `
+      <td>${row.rank}</td>
+      <td>
+        <a class="entry-link" href="bracket.html?id=${row.id}">
+          ${row.name}
+        </a>
+      </td>
+      <td>${row.total}</td>
+      <td>${row.maxPossible}</td>
+    `;
 
     tbody.appendChild(tr);
   });
@@ -61,17 +61,18 @@ async function loadLeaderboard() {
   const entries = await fetchEntries();
   const officialResults = await fetchOfficialResults();
 
-const formattedEntries = entries.map(entry => ({
-  id: entry.id,
-  name: entry.name,
-  submittedAt: entry.submitted_at,
-  picks: {
-    groupGames: entry.group_picks || {},
-    knockoutGames: entry.knockout_picks || {}
-  }
-}));
+  const formattedEntries = entries.map(entry => ({
+    id: entry.id,
+    name: entry.name,
+    submittedAt: entry.submitted_at,
+    picks: {
+      groupGames: entry.group_picks || {},
+      knockoutGames: entry.knockout_picks || {}
+    }
+  }));
 
   const leaderboard = getLeaderboard(formattedEntries, officialResults);
+  console.log("leaderboard:", leaderboard);
   renderLeaderboard(leaderboard);
 }
 

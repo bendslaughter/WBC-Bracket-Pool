@@ -2,36 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>VIEW BRACKET</title>
-
+  <title>WBC Admin Results</title>
   <link rel="stylesheet" href="styles.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header class="site-header">
-  <div class="site-header__inner">
-    <div class="site-brand">WBC Bracket Pool</div>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-brand">WBC Bracket Pool</div>
 
-    <nav class="site-nav">
-      <a href="index.html" class="nav-btn">Bracket</a>
-      <a href="leaderboard.html" class="nav-btn">Leaderboard</a>
-      <a href="admin.html" class="nav-btn">Admin</a>
-    </nav>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-btn">Bracket</a>
+        <a href="leaderboard.html" class="nav-btn">Leaderboard</a>
+        <a href="admin.html" class="nav-btn active">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <h1>Admin Results</h1>
+
+  <div class="admin-actions">
+    <button id="save-results">Save Official Results</button>
+    <span id="save-status"></span>
   </div>
-</header>
 
-  <h1 id="bracket-page-title">Bracket</h1>
-
-  <h2>Group Stage</h2>
+  <h2>Group Stage Results</h2>
   <div id="games"></div>
 
-  <h2>Knockout Stage</h2>
+  <h2>Knockout Results</h2>
 
   <div class="bracket-labels">
     <h3>Quarterfinals</h3>
@@ -62,16 +64,7 @@
   <script src="state.js"></script>
   <script src="standings.js"></script>
   <script src="bracket.js"></script>
+  <script src="admin.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="bracket-view.js"></script>
-  <script>
-const links = document.querySelectorAll(".nav-btn");
-
-links.forEach(link => {
-  if (window.location.pathname.includes(link.getAttribute("href"))) {
-    link.classList.add("active");
-  }
-});
-</script>
 </body>
 </html>

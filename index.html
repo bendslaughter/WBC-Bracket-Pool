@@ -16,11 +16,18 @@
     <div class="site-brand">WBC Bracket Pool</div>
 
     <nav class="site-nav">
-      <a href="index.html" class="nav-btn active">Bracket</a>
+      <a href="index.html" class="nav-btn">Bracket</a>
       <a href="leaderboard.html" class="nav-btn">Leaderboard</a>
+      <a href="admin.html" class="nav-btn">Admin</a>
     </nav>
   </div>
 </header>
+<div class="auth-bar">
+  <input id="auth-email" type="email" placeholder="Enter your email" />
+  <button id="send-magic-link">Email Login Link</button>
+  <button id="sign-out-btn" style="display:none;">Sign Out</button>
+  <span id="auth-status"></span>
+</div>
 
   <!-- ENTRY SECTION -->
   <div class="entry-section">
@@ -74,7 +81,18 @@
 <script src="standings.js"></script>
 <script src="bracket.js"></script>
 <script src="scoring.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="auth.js"></script>
 <script src="app.js"></script>
+<script>
+const links = document.querySelectorAll(".nav-btn");
+
+links.forEach(link => {
+  if (window.location.pathname.includes(link.getAttribute("href"))) {
+    link.classList.add("active");
+  }
+});
+</script>
 
 </body>
 </html>

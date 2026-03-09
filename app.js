@@ -36,6 +36,11 @@ function setupSubmitButton() {
   if (!btn) return;
 
   btn.addEventListener("click", async () => {
+    if (!currentUser) {
+      alert("Please sign in before submitting your bracket.");
+      return;
+    }
+
     if (!state.currentEntry.name.trim()) {
       alert("Please enter your name before submitting.");
       return;
@@ -45,6 +50,7 @@ function setupSubmitButton() {
 
     const entry = {
       name: state.currentEntry.name.trim(),
+      user_id: currentUser.id,
       group_picks: state.currentEntry.picks.groupGames,
       knockout_picks: state.currentEntry.picks.knockoutGames
     };
@@ -60,13 +66,6 @@ function setupSubmitButton() {
       alert("There was a problem submitting your bracket.");
       return;
     }
-
-    state.entries.push({
-      ...entry,
-      submitted_at: new Date().toISOString()
-    });
-
-    saveState();
 
     alert("Bracket submitted!");
   });
@@ -181,9 +180,73 @@ async function fetchEntries() {
   return data;
 }
 
-function init() {
+let currentUser = null;
+
+function updateAuthUI(user) {
+  currentUser = user;
+
+  const authStatus = document.getElementById("auth-status");
+  const signOutBtn = document.getElementById("sign-out-btn");
+  const sendBtn = document.getElementById("send-magic-link");
+  const emailInput = document.getElementById("auth-email");
+
+  if (!authStatus || !signOutBtn || !sendBtn || !emailInput) return;
+
+  if (user) {
+    authStatus.innerText = `Signed in as ${user.email}`;
+    signOutBtn.style.display = "inline-block";
+    sendBtn.style.display = "none";
+    emailInput.style.display = "none";
+  } else {
+    authStatus.innerText = "";
+    signOutBtn.style.display = "none";
+    sendBtn.style.display = "inline-block";
+    emailInput.style.display = "inline-block";
+  }
+}
+
+function setupAuthButtons() {
+  const sendBtn = document.getElementById("send-magic-link");
+  const signOutBtn = document.getElementById("sign-out-btn");
+  const emailInput = document.getElementById("auth-email");
+  const authStatus = document.getElementById("auth-status");
+
+  if (sendBtn && emailInput) {
+    sendBtn.addEventListener("click", async () => {
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        alert("Please enter your email.");
+        return;
+      }
+
+      const { error } = await sendMagicLink(email);
+
+      if (error) {
+        console.error("Magic link error:", error);
+        authStatus.innerText = "Login email failed";
+        return;
+      }
+
+      authStatus.innerText = "Check your email for a login link";
+    });
+  }
+
+  if (signOutBtn) {
+    signOutBtn.addEventListener("click", async () => {
+      await signOutUser();
+    });
+  }
+}
+
+async function init() {
   loadState();
 
+  const user = await getCurrentUser();
+  updateAuthUI(user);
+  listenForAuthChanges(updateAuthUI);
+
+  setupAuthButtons();
   setupEntryName();
   setupSubmitButton();
 

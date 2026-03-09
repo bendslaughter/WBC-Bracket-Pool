@@ -20,8 +20,9 @@
     <div class="site-brand">WBC Bracket Pool</div>
 
     <nav class="site-nav">
-      <a href="index.html" class="nav-btn active">Bracket</a>
+      <a href="index.html" class="nav-btn">Bracket</a>
       <a href="leaderboard.html" class="nav-btn">Leaderboard</a>
+      <a href="admin.html" class="nav-btn">Admin</a>
     </nav>
   </div>
 </header>
@@ -30,14 +31,15 @@
 
   <div class="leaderboard-wrap">
     <table class="leaderboard-table">
-      <thead>
+        <thead>
         <tr>
-          <th>RANK</th>
-          <th>NAME</th>
-          <th>POINTS</th>
-          <th>MAX POSSIBLE</th>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+            <th>Max Possible</th>
         </tr>
-      </thead>
+        </thead>
+<tbody id="leaderboard-body"></tbody>
       <tbody id="leaderboard-body"></tbody>
     </table>
   </div>
@@ -48,6 +50,15 @@
   <script src="state.js"></script>
   <script src="scoring.js"></script>
   <script src="leaderboard.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+const links = document.querySelectorAll(".nav-btn");
 
+links.forEach(link => {
+  if (window.location.pathname.includes(link.getAttribute("href"))) {
+    link.classList.add("active");
+  }
+});
+</script>
 </body>
 </html>
