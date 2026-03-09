@@ -5,72 +5,61 @@ const scoringRules = {
   final: 6
 };
 
-function scoreEntry(entry, officialResults = state.officialResults) {
+function scoreEntry(entry, officialResults) {
+
   let total = 0;
+  let maxPossible = 0;
 
-  let breakdown = {
-    group: 0,
-    quarterfinal: 0,
-    semifinal: 0,
-    final: 0
-  };
+  const entryGroup = entry.picks.groupGames || {};
+  const officialGroup = officialResults.groupGames || {};
 
-  let correctPicks = 0;
-  let pendingPicks = 0;
+  Object.keys(entryGroup).forEach(gameId => {
 
-  const entryGroupPicks = entry.picks?.groupGames || {};
-  const officialGroupResults = officialResults.groupGames || {};
+    const pick = entryGroup[gameId];
+    const result = officialGroup[gameId];
 
-  Object.keys(entryGroupPicks).forEach(gameId => {
-    const userPick = entryGroupPicks[gameId];
-    const officialPick = officialGroupResults[gameId];
-
-    if (!officialPick) {
-      pendingPicks++;
+    if (!result) {
+      maxPossible += scoringRules.groupGame;
       return;
     }
 
-    if (userPick === officialPick) {
+    if (pick === result) {
       total += scoringRules.groupGame;
-      breakdown.group += scoringRules.groupGame;
-      correctPicks++;
+      maxPossible += scoringRules.groupGame;
     }
+
   });
 
-  const entryKnockoutPicks = entry.picks?.knockoutGames || {};
-  const officialKnockoutResults = officialResults.knockoutGames || {};
+  const entryKO = entry.picks.knockoutGames || {};
+  const officialKO = officialResults.knockoutGames || {};
 
-  Object.keys(entryKnockoutPicks).forEach(matchId => {
-    const userPick = entryKnockoutPicks[matchId];
-    const officialPick = officialKnockoutResults[matchId];
+  Object.keys(entryKO).forEach(matchId => {
 
-    if (!officialPick) {
-      pendingPicks++;
+    const pick = entryKO[matchId];
+    const result = officialKO[matchId];
+
+    let points = 0;
+
+    if (matchId.startsWith("qf")) points = scoringRules.quarterfinal;
+    if (matchId.startsWith("sf")) points = scoringRules.semifinal;
+    if (matchId === "final") points = scoringRules.final;
+
+    if (!result) {
+      maxPossible += points;
       return;
     }
 
-    if (userPick !== officialPick) return;
-
-    if (matchId.startsWith("qf")) {
-      total += scoringRules.quarterfinal;
-      breakdown.quarterfinal += scoringRules.quarterfinal;
-    } else if (matchId.startsWith("sf")) {
-      total += scoringRules.semifinal;
-      breakdown.semifinal += scoringRules.semifinal;
-    } else if (matchId === "final") {
-      total += scoringRules.final;
-      breakdown.final += scoringRules.final;
+    if (pick === result) {
+      total += points;
+      maxPossible += points;
     }
 
-    correctPicks++;
   });
 
   return {
-    name: entry.name || "",
+    name: entry.name,
     total,
-    correctPicks,
-    pendingPicks,
-    breakdown
+    maxPossible
   };
 }
 
@@ -83,26 +72,29 @@ function scoreAllEntries(entries = state.entries, officialResults = state.offici
   });
 }
 
-function getLeaderboard(entries = state.entries, officialResults = state.officialResults) {
-  const scoredEntries = scoreAllEntries(entries, officialResults);
+function getLeaderboard(entries, officialResults) {
+  const scored = entries.map(entry => {
+    const score = scoreEntry(entry, officialResults);
 
-  return scoredEntries
-    .sort((a, b) => {
-      if (b.score.total !== a.score.total) {
-        return b.score.total - a.score.total;
-      }
+    return {
+      id: entry.id,
+      name: entry.name,
+      total: score.total,
+      maxPossible: score.maxPossible,
+      submittedAt: entry.submittedAt
+    };
+  });
 
-      return new Date(a.submittedAt) - new Date(b.submittedAt);
-    })
-    .map((entry, index) => {
-      return {
-        rank: index + 1,
-        name: entry.name,
-        total: entry.score.total,
-        correctPicks: entry.score.correctPicks,
-        pendingPicks: entry.score.pendingPicks,
-        breakdown: entry.score.breakdown,
-        submittedAt: entry.submittedAt
-      };
-    });
+  scored.sort((a, b) => {
+    if (b.total !== a.total) {
+      return b.total - a.total;
+    }
+
+    return new Date(a.submittedAt) - new Date(b.submittedAt);
+  });
+
+  return scored.map((row, i) => ({
+    rank: i + 1,
+    ...row
+  }));
 }

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <title>WBC Bracket Pool</title>
+  <title>VIEW BRACKET</title>
+
   <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet">
 </head>
-
 <body>
+
 <header class="site-header">
   <div class="site-header__inner">
     <div class="site-brand">WBC Bracket Pool</div>
@@ -22,24 +24,11 @@
   </div>
 </header>
 
-  <!-- ENTRY SECTION -->
-  <div class="entry-section">
-    <label for="entry-name">Your Name</label>
+  <h1 id="bracket-page-title">Bracket</h1>
 
-    <input
-      id="entry-name"
-      type="text"
-      placeholder="Enter your name"
-    />
-
-    <button id="submit-entry">Submit Bracket</button>
-  </div>
-
-  <!-- GROUP STAGE -->
   <h2>Group Stage</h2>
   <div id="games"></div>
 
-  <!-- KNOCKOUT STAGE -->
   <h2>Knockout Stage</h2>
 
   <div class="bracket-labels">
@@ -63,18 +52,14 @@
     <div class="match" id="qf4"></div>
   </div>
 
-  <!-- JAVASCRIPT -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="supabase.js"></script>
-
-<script src="data.js"></script>
-<script src="games.js"></script>
-<script src="state.js"></script>
-<script src="standings.js"></script>
-<script src="bracket.js"></script>
-<script src="scoring.js"></script>
-<script src="app.js"></script>
-
+  <script src="supabase.js"></script>
+  <script src="data.js"></script>
+  <script src="games.js"></script>
+  <script src="state.js"></script>
+  <script src="standings.js"></script>
+  <script src="bracket.js"></script>
+  <script src="bracket-view.js"></script>
 </body>
 </html>

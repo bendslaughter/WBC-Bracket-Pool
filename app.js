@@ -19,9 +19,7 @@ function loadState() {
   }
 }
 
-
 function setupEntryName() {
-
   const input = document.getElementById("entry-name");
   if (!input) return;
 
@@ -31,53 +29,60 @@ function setupEntryName() {
     state.currentEntry.name = e.target.value;
     saveState();
   });
-
 }
 
-
 function setupSubmitButton() {
-
   const btn = document.getElementById("submit-entry");
   if (!btn) return;
 
-  btn.addEventListener("click", () => {
-
-    if (!state.currentEntry.name) {
+  btn.addEventListener("click", async () => {
+    if (!state.currentEntry.name.trim()) {
       alert("Please enter your name before submitting.");
       return;
     }
 
+    btn.disabled = true;
+
     const entry = {
-      name: state.currentEntry.name,
-      picks: JSON.parse(JSON.stringify(state.currentEntry.picks)),
-      submittedAt: new Date().toISOString()
+      name: state.currentEntry.name.trim(),
+      group_picks: state.currentEntry.picks.groupGames,
+      knockout_picks: state.currentEntry.picks.knockoutGames
     };
 
-    state.entries.push(entry);
+    const { error } = await supabaseClient
+      .from("entries")
+      .insert([entry]);
+
+    btn.disabled = false;
+
+    if (error) {
+      console.error("Supabase insert error:", error);
+      alert("There was a problem submitting your bracket.");
+      return;
+    }
+
+    state.entries.push({
+      ...entry,
+      submitted_at: new Date().toISOString()
+    });
 
     saveState();
 
     alert("Bracket submitted!");
-
   });
-
 }
-
 
 function clearKnockoutPicks() {
   state.currentEntry.picks.knockoutGames = {};
 }
 
-
 function buildGames() {
-
   const container = document.getElementById("games");
   if (!container) return;
 
   container.innerHTML = "";
 
   Object.keys(games).forEach(group => {
-
     const groupWrapper = document.createElement("div");
     groupWrapper.className = "group-box";
 
@@ -107,7 +112,6 @@ function buildGames() {
     const scheduleDiv = document.getElementById(`schedule-${group}`);
 
     games[group].forEach(game => {
-
       const selectedWinner = state.currentEntry.picks.groupGames[game.id];
 
       const row = document.createElement("div");
@@ -138,12 +142,9 @@ function buildGames() {
       const buttons = row.querySelectorAll(".team-btn");
 
       buttons.forEach(btn => {
-
         btn.addEventListener("click", () => {
-
           const gameId = btn.dataset.gameId;
           const selectedTeam = btn.dataset.team;
-
           const currentWinner = state.currentEntry.picks.groupGames[gameId];
 
           if (currentWinner === selectedTeam) {
@@ -158,22 +159,29 @@ function buildGames() {
           buildGames();
           renderAllStandings();
           updateBracket();
-
         });
-
       });
 
       scheduleDiv.appendChild(row);
-
     });
-
   });
-
 }
 
+async function fetchEntries() {
+  const { data, error } = await supabaseClient
+    .from("entries")
+    .select("*")
+    .order("submitted_at", { ascending: true });
+
+  if (error) {
+    console.error("Error loading entries:", error);
+    return [];
+  }
+
+  return data;
+}
 
 function init() {
-
   loadState();
 
   setupEntryName();
@@ -182,7 +190,6 @@ function init() {
   buildGames();
   renderAllStandings();
   updateBracket();
-
 }
 
 init();
