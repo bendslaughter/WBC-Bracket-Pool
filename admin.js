@@ -3,10 +3,11 @@ async function protectAdminPage() {
 
   if (!user || user.email !== "benjamindslaughter@gmail.com") {
     window.location.href = "index.html";
+    return false;
   }
-}
 
-protectAdminPage();
+  return true;
+}
 
 let officialResultsRowId = null;
 
@@ -322,7 +323,13 @@ async function startAdminPage() {
   const allowed = await protectAdminPage();
   if (!allowed) return;
 
-  await initAdminPage();
+  const results = await fetchOfficialResults();
+  loadOfficialResultsIntoState(results);
+
+  setupSaveButton();
+  buildAdminGames();
+  renderAllOfficialStandings();
+  updateAdminBracket();
 }
 
 startAdminPage();

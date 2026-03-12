@@ -116,7 +116,13 @@ function setupAuthButtons() {
 
 if (signOutBtn) {
   signOutBtn.addEventListener("click", async () => {
-    await signOutUser();
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      console.error("Sign out error:", error);
+      return;
+    }
+
     updateAuthUI(null);
     window.location.reload();
   });

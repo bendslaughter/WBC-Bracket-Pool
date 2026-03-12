@@ -1,0 +1,25 @@
+{
+  "name": "wbc-bracket-pool",
+  "version": "1.0.0",
+  "description": "A web app for running a World Baseball Classic bracket pool with friends.",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run dev": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bendslaughter/WBC-Bracket-Pool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bendslaughter/WBC-Bracket-Pool/issues"
+  },
+  "homepage": "https://github.com/bendslaughter/WBC-Bracket-Pool#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
